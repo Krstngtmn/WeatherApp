@@ -1,29 +1,29 @@
 
-const app = document.querySelector('weather-app');
-const temp = document.querySelector('.temp');
-const dateOutput = document.querySelector('.date');
-const timeOutput = document.querySelector('.time');
-const conditionOutput = document.querySelector('.condition');
-const nameOutput = document.querySelector('.name');
-const icon = document.querySelector('.icon');
-const cloudOutput = document.querySelector('.cloud');
-const humidityOutput = document.querySelector('.humidity');
-const windOutput = document.querySelector('.temp');
-const form = document.querySelector('.locationInput');
-const search = document.querySelector('.search');
-const btn = document.querySelector('.submit');
-const cities = document.querySelector('.city');
+const app = document.getElementById('.weather-app');
+const temp = document.getElementById('.temp');
+const dateOutput = document.getElementById('.date');
+const timeOutput = document.getElementById('.time');
+const conditionOutput = document.getElementById('.condition');
+const nameOutput = document.getElementById('.name');
+const icon = document.getElementById('.icon');
+const cloudOutput = document.getElementById('.cloud');
+const humidityOutput = document.getElementById('.humidity');
+const windOutput = document.getElementById('.temp');
+const form = document.getElementById('.locationInput');
+const search = document.getElementById('.search');
+const btn = document.getElementById('.submit');
+const cities = document.getElementById('.city');
 
 
 let cityInput = 'London';
 
-// cities.forEach((city) => {
-//   city.addEventListener('click', (e) => {
-//     cityInput = e.target.innerHTML;
-//     fetchWeatherData();
-//     app.style.opacity = "0";
-//   });
-// })
+cities.forEach((city) => {
+  city.addEventListener('click', (e) => {
+    cityInput = e.target.innerHTML;
+    fetchWeatherData();
+    app.style.opacity = "0";
+  });
+})
 
 
 
