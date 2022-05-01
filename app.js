@@ -18,15 +18,14 @@ const cities = document.querySelector('.city');
 let cityInput = 'Tallinn';
 
 form.addEventListener('submit', (e) => {
-	e.preventDefault();
-
-	if (search.length == 1) {
+	if (search.length == 0) {
 		alert('Please type a valid city name');
 	} else {
 		cityInput = search.value;
 		fetchWeatherData(cityInput);
 		search.value = '';
 	}
+	e.preventDefault();
 });
 
 function dayOfTheWeek(day, month, year) {
@@ -46,10 +45,10 @@ function fetchWeatherData(locationInput) {
 			const y = parseInt(date.substr(0, 4));
 			const d = parseInt(date.substr(5, 2));
 			const m = parseInt(date.substr(8, 2));
-			const time = parseInt(date.substr(11));
+			const time = date.substr(11);
 
-			dateOutput.innerHTML = `${dayOfTheWeek(m, d, y)} ${m} ${d} ${y}`;
-			timeOutput.innerHTML = data.location.time;
+			dateOutput.innerHTML = `${dayOfTheWeek(d, m, y)} ${m}, ${d} ${y}`;
+			timeOutput.innerHTML = time;
 			nameOutput.innerHTML = data.location.name;
 
 			const iconId = data.current.condition.icon.substr('//cdn.weatherapi.com/weather/64x64'.length);
@@ -59,16 +58,20 @@ function fetchWeatherData(locationInput) {
 			humidityOutput.innerHTML = data.current.humidity + '%';
 			windOutput.innerHTML = data.current.wind_kph + 'km/h';
 
+			//Changing photos according to the weather code of the location
+
 			let timeOfDay = 'day';
 			const code = data.current.condition.code;
 
 			if (!data.current.is_day) {
 				timeOfDay = 'night';
 			}
-
+			console.log(code);
 			if (code == 1000) {
 				app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
 				btn.style.background = '#e5ba92';
+			} else {
+				//Cloudy image change
 				if (timeOfDay == 'night') {
 					btn.style.background = '#181e27';
 				} else if (
@@ -84,12 +87,14 @@ function fetchWeatherData(locationInput) {
 					code == 1279 ||
 					code == 1282
 				) {
-					app.style.backgroundImage = `url(./images${timeOfDay}/cloudy.jpg)`;
+					app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
 					btn.style.background = '#fa6d1b';
 
 					if (timeOfDay == 'night') {
 						btn.style.background = '#181e27';
 					}
+
+					//Rainy image change
 				} else if (
 					code == 1063 ||
 					code == 1069 ||
@@ -110,13 +115,13 @@ function fetchWeatherData(locationInput) {
 					code == 1249 ||
 					code == 1252
 				) {
-					app.style.backgroundImage = `url(./images${timeOfDay}/rainy.jpg)`;
+					app.style.backgroundImage = `url(./images/${timeOfDay}/rainy.jpg)`;
 					btn.style.background = '#647d75';
 					if (timeOfDay == 'night') {
 						btn.style.background = '#325c80';
 					}
 				} else {
-					app.style.backgroundImage = `url(./images${timeOfDay}/snowy.jpg)`;
+					app.style.backgroundImage = `url(./images/${timeOfDay}/snowy.jpg)`;
 					btn.style.background = '#4d72aa';
 					if (timeOfDay == 'night') {
 						btn.style.background = '#1b1b1b';
@@ -138,14 +143,3 @@ function fetchWeatherData(locationInput) {
 // // 		fetchWeatherData(); //function that will fech the data
 // // 	});
 // // });
-
-// btn.addEventListener('submit', (e) => {
-// 	if (search.ariaValueMax.length == 0) {
-// 		alert('Please type in a city name');
-// 	} else {
-// 		cityInput = search.value;
-// 		fetchWeatherData();
-// 		search.value = '';
-// 	}
-// 	e.preventDefault();
-// });
