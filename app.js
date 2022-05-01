@@ -1,4 +1,4 @@
-const app = document.querySelector('.weather-app');
+const app = document.querySelector('.weather-app .image');
 const temp = document.querySelector('.temp');
 const dateOutput = document.querySelector('.date');
 const timeOutput = document.querySelector('.time');
@@ -72,9 +72,7 @@ function fetchWeatherData(locationInput) {
 				btn.style.background = '#e5ba92';
 			} else {
 				//Cloudy image change
-				if (timeOfDay == 'night') {
-					btn.style.background = '#181e27';
-				} else if (
+				if (
 					code == 1003 ||
 					code == 1006 ||
 					code == 1009 ||
