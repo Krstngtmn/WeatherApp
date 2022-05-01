@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Catamaran', sans-serif;
   background: #111;
 }
 
@@ -17,6 +17,13 @@ h3 {
   position: relative;
   display: flex;
   min-height: 100vh;
+<<<<<<< Updated upstream
+=======
+  background-image: url(images/day/forest.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+>>>>>>> Stashed changes
   color: #fff;
   position: relative;
   transition: 500ms;
@@ -36,9 +43,11 @@ h3 {
 
 .image {
   position: absolute;
+  background-color: #ccc;
+  backdrop-filter: blur(1px);
+  opacity:60%;
   top: 0;
-  left: 0;
-  width: 100%;
+  width: 80%;
   height: 100%;
   background-image: url(images/day/clear.jpg);
   background-position: center;
@@ -58,15 +67,20 @@ h3 {
   justify-content: space-between;
   align-items: center;
   padding: 2em 3em 4em 3em;
+<<<<<<< Updated upstream
   z-index: 2;
 
+=======
+  z-index: 0;
+>>>>>>> Stashed changes
 }
 
-.container>div {
+.main-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+<<<<<<< Updated upstream
   width: 40%;
   background: rgba(51, 46, 176, 0.403);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
@@ -78,6 +92,10 @@ h3 {
   padding: 3em 2em;
   overflow-y: scroll;
   margin-bottom: 20px;
+=======
+  z-index: 0;
+
+>>>>>>> Stashed changes
 }
 
 
@@ -103,6 +121,7 @@ weather img {
   margin: 0.5em 0;
 }
 
+<<<<<<< Updated upstream
 .panel {
   display: flex;
   justify-content: space-between;
@@ -119,11 +138,11 @@ weather img {
   padding: 3em 2em;
   overflow-y: scroll;
 }
+=======
+>>>>>>> Stashed changes
 
-.panel form {
-  margin-bottom: 3em;
-}
 
+<<<<<<< Updated upstream
 .submit {
   position: absolute;
   top: 0;
@@ -138,21 +157,14 @@ weather img {
   font-size: 1.2em;
   transition: 0.4s;
 }
+=======
+>>>>>>> Stashed changes
 
 .submit:hover {
   background: #fff !important;
   color: #000;
 }
 
-.search {
-  background: none;
-  border: none;
-  border-bottom: 1px #ccc solid;
-  padding: 0 1em 0.5em 0;
-  width: 80%;
-  color: #fff;
-  font-size: 1.1em;
-}
 
 .search:focus {
   outline: none;
@@ -162,6 +174,7 @@ weather img {
   color: #ccc;
 }
 
+<<<<<<< Updated upstream
 .panel ul {
   padding: 0 0 1em 0;
   margin: 2em 0;
@@ -178,6 +191,8 @@ weather img {
 .panel ul h4 {
   margin: 3em 0;
 }
+=======
+>>>>>>> Stashed changes
 
 .city {
   display: block;
