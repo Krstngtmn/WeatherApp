@@ -134,12 +134,3 @@ function fetchWeatherData(locationInput) {
 			// alert('City not found, please try again');
 		});
 }
-
-// fetchWeatherData();
-
-// // cities.forEach((city) => {
-// // 	city.addEventListener('click', (e) => {
-// // 		cityInput = e.target.innerHTML;
-// // 		fetchWeatherData(); //function that will fech the data
-// // 	});
-// // });
