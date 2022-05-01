@@ -1,154 +1,151 @@
+const app = document.querySelector('.weather-app');
+const temp = document.querySelector('.temp');
+const dateOutput = document.querySelector('.date');
+const timeOutput = document.querySelector('.time');
+const conditionOutput = document.querySelector('.condition');
+const nameOutput = document.querySelector('.name');
+const icon = document.querySelector('.icon');
+const cloudOutput = document.querySelector('.cloud');
+const humidityOutput = document.querySelector('.humidity');
+const windOutput = document.querySelector('.wind');
+const form = document.querySelector('#locationInput');
+const search = document.querySelector('.search');
+const btn = document.querySelector('.submit');
+const cities = document.querySelector('.city');
 
-const app = document.getElementById('.weather-app');
-const temp = document.getElementById('.temp');
-const dateOutput = document.getElementById('.date');
-const timeOutput = document.getElementById('.time');
-const conditionOutput = document.getElementById('.condition');
-const nameOutput = document.getElementById('.name');
-const icon = document.getElementById('.icon');
-const cloudOutput = document.getElementById('.cloud');
-const humidityOutput = document.getElementById('.humidity');
-const windOutput = document.getElementById('.temp');
-const form = document.getElementById('.locationInput');
-const search = document.getElementById('.search');
-const btn = document.getElementById('.submit');
-const cities = document.getElementById('.city');
+//Default city loaded
 
-
-let cityInput = 'London';
-
-cities.forEach((city) => {
-  city.addEventListener('click', (e) => {
-    cityInput = e.target.innerHTML;
-    fetchWeatherData();
-    app.style.opacity = "0";
-  });
-})
-
-
+let cityInput = 'Tallinn';
 
 form.addEventListener('submit', (e) => {
-  if(search.ariaValueMax.length == 0) {
-    alert('Please type in a city name');
-  } else {
-    cityInput = search.value;
-    fetchWeatherData();
-    search.value = "";
-    app.style.opacity = "0";
-  }
-  e.preventDefault();
+	e.preventDefault();
+
+	if (search.length == 1) {
+		alert('Please type a valid city name');
+	} else {
+		cityInput = search.value;
+		fetchWeatherData(cityInput);
+		search.value = '';
+	}
 });
 
-function dyOfTheWeek(day, month, year) {
-  const weekday = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-  return weekday[new Date(`${day}/${month}/${year}`).getDay];
+function dayOfTheWeek(day, month, year) {
+	const weekday = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ];
+	return weekday[new Date(`${day}/${month}/${year}`).getDay()];
 }
 
+function fetchWeatherData(locationInput) {
+	fetch(`http://api.weatherapi.com/v1/current.json?key=11044dd74e8c4ae8a4e145241220105&q=${locationInput}
+  `)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			temp.innerHTML = data.current.temp_c + '&#176;';
+			conditionOutput.innerHTML = data.current.condition.text;
+			const date = data.location.localtime;
+			const y = parseInt(date.substr(0, 4));
+			const d = parseInt(date.substr(5, 2));
+			const m = parseInt(date.substr(8, 2));
+			const time = parseInt(date.substr(11));
 
-function fetchWeatherData() {
-  fetch(`http://api.weatherapi.com/v1/current.json?key=6a1519ccf53148699b2173024223004${cityInput}`)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    temp.innerHTML = data.current.temp_c + "&#176;";
-    conditionOutput.innerHTML = data.current.condition.text;
-    const date = data.location.localtime;
-    const y = pareseInt(date.substr(0, 4));
-    const m = pareseInt(date.substr(5, 2));
-    const d = pareseInt(date.substr(8, 2));
-    const time = pareseInt(date.substr(11));
+			dateOutput.innerHTML = `${dayOfTheWeek(m, d, y)} ${m} ${d} ${y}`;
+			timeOutput.innerHTML = data.location.time;
+			nameOutput.innerHTML = data.location.name;
 
-    dateOutput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m} ${y}`
-    timeOutput.innerHTML = time;
-    nameOutput.innerHTML = data.location.name;
+			const iconId = data.current.condition.icon.substr('//cdn.weatherapi.com/weather/64x64'.length);
+			icon.src = './icons/' + iconId;
 
-    const iconId = data.current.condition.icon.substr("//cdn.weatherapi.com/weather/64x64".length);
-    icon.src = "./icons/" + iconId; 
+			cloudOutput.innerHTML = data.current.cloud + '%';
+			humidityOutput.innerHTML = data.current.humidity + '%';
+			windOutput.innerHTML = data.current.wind_kph + 'km/h';
 
-    cloudOutput.innerHTML = data.current.cloud + "%";
-    humidityOutput.innerHTML = data.current.humidity + "%";
-    windOutput.innerHTML = data.current.wind_kph + "km/h";
+			let timeOfDay = 'day';
+			const code = data.current.condition.code;
 
-    let timeOfDay = "day";
-    const code = data.current.condition.code;
+			if (!data.current.is_day) {
+				timeOfDay = 'night';
+			}
 
-    if(!data.current.is_day) {
-      timeOfDay = "night";
-    }
+			if (code == 1000) {
+				app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
+				btn.style.background = '#e5ba92';
+				if (timeOfDay == 'night') {
+					btn.style.background = '#181e27';
+				} else if (
+					code == 1003 ||
+					code == 1006 ||
+					code == 1009 ||
+					code == 1030 ||
+					code == 1069 ||
+					code == 1087 ||
+					code == 1135 ||
+					code == 1273 ||
+					code == 1276 ||
+					code == 1279 ||
+					code == 1282
+				) {
+					app.style.backgroundImage = `url(./images${timeOfDay}/cloudy.jpg)`;
+					btn.style.background = '#fa6d1b';
 
-    if(code == 1000) {
-      app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`
-      btn.style.background = "#e5ba92";
-      if(timeOfDay == "night") {
-        btn.style.background = "#181e27";
-      } else if (
-        code == 1003 ||
-        code == 1006 ||
-        code == 1009 ||
-        code == 1030 ||
-        code == 1069 ||
-        code == 1087 ||
-        code == 1135 ||
-        code == 1273 ||
-        code == 1276 ||
-        code == 1279 ||
-        code == 1282
-      ) {
-        app.style.backgroundImage = `url(./images${timeOfDay}/cloudy.jpg)`;
-        btn.style.background = "#fa6d1b";
-
-        if(timeOfDay == "night") {
-          btn.style.background = "#181e27";
-        }
-
-      } else if (
-        code == 1063 ||
-        code == 1069 ||
-        code == 1072 ||
-        code == 1150 ||
-        code == 1153 ||
-        code == 1180 ||
-        code == 1183 ||
-        code == 1186 ||
-        code == 1189 ||
-        code == 1192 ||
-        code == 1195 ||
-        code == 1204 ||
-        code == 1207 ||
-        code == 1240 ||
-        code == 1243 ||
-        code == 1246 ||
-        code == 1249 ||
-        code == 1252
-      ) {
-        app.style.backgroundImage = `url(./images${timeOfDay}/rainy.jpg)`;
-        btn.style.background = "#647d75";
-        if(timeOfDay == "night") {
-          btn.style.background = "#325c80";
-        }
-      } else {
-        app.style.backgroundImage = `url(./images${timeOfDay}/snowy.jpg)`;
-        btn.style.background = "#4d72aa";
-        if(timeOfDay == "night") {
-          btn.style.background = "#1b1b1b";
-        }
-      }
-      app.style.opacity = "1";
-    }
-  })
-  .catch(() => {
-    alert("City not found, please try again");
-    app.style.opacity = "1";
-  });
+					if (timeOfDay == 'night') {
+						btn.style.background = '#181e27';
+					}
+				} else if (
+					code == 1063 ||
+					code == 1069 ||
+					code == 1072 ||
+					code == 1150 ||
+					code == 1153 ||
+					code == 1180 ||
+					code == 1183 ||
+					code == 1186 ||
+					code == 1189 ||
+					code == 1192 ||
+					code == 1195 ||
+					code == 1204 ||
+					code == 1207 ||
+					code == 1240 ||
+					code == 1243 ||
+					code == 1246 ||
+					code == 1249 ||
+					code == 1252
+				) {
+					app.style.backgroundImage = `url(./images${timeOfDay}/rainy.jpg)`;
+					btn.style.background = '#647d75';
+					if (timeOfDay == 'night') {
+						btn.style.background = '#325c80';
+					}
+				} else {
+					app.style.backgroundImage = `url(./images${timeOfDay}/snowy.jpg)`;
+					btn.style.background = '#4d72aa';
+					if (timeOfDay == 'night') {
+						btn.style.background = '#1b1b1b';
+					}
+				}
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			// alert('City not found, please try again');
+		});
 }
 
-fetchWeatherData();
-app.style.opacity = "1";
+// fetchWeatherData();
+
+// // cities.forEach((city) => {
+// // 	city.addEventListener('click', (e) => {
+// // 		cityInput = e.target.innerHTML;
+// // 		fetchWeatherData(); //function that will fech the data
+// // 	});
+// // });
+
+// btn.addEventListener('submit', (e) => {
+// 	if (search.ariaValueMax.length == 0) {
+// 		alert('Please type in a city name');
+// 	} else {
+// 		cityInput = search.value;
+// 		fetchWeatherData();
+// 		search.value = '';
+// 	}
+// 	e.preventDefault();
+// });
