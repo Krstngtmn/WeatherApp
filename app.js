@@ -1,3 +1,5 @@
+import WEATHER_API_KEY from '../apikey.js';
+
 const app = document.querySelector('.weather-app .image');
 const temp = document.querySelector('.temp');
 const dateOutput = document.querySelector('.date');
@@ -34,7 +36,7 @@ function dayOfTheWeek(day, month, year) {
 }
 
 function fetchWeatherData(locationInput) {
-	fetch(`http://api.weatherapi.com/v1/current.json?key=11044dd74e8c4ae8a4e145241220105&q=${locationInput}
+	fetch(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}=${locationInput}
   `)
 		.then((response) => response.json())
 		.then((data) => {
